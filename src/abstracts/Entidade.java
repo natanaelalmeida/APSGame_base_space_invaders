@@ -11,8 +11,8 @@ public abstract class Entidade {
     protected double y;
     protected double vx; //velocidade em x
     protected double vy; //velocidade em y
-    private Rectangle rec1 = new Rectangle();; //espaçamento da nave
-    private Rectangle rec2 = new Rectangle();; //espaçamento do alien    
+    private Rectangle me = new Rectangle();; //espaçamento da nave
+    private Rectangle him = new Rectangle();; //espaçamento do alien    
     private Render render;
     
     public Entidade(String src, int x, int y){
@@ -67,10 +67,10 @@ public abstract class Entidade {
     }
     
     public boolean colisao(Entidade e){
-       rec1.setBounds((int)x, (int)y, render.getWidth(), render.getHeight());
-       rec2.setBounds((int)x, (int)y, e.render.getWidth(), e.render.getHeight());
+       me.setBounds((int)x, (int)y, render.getWidth(), render.getHeight());
+       him.setBounds((int)e.x, (int)e.y, e.render.getWidth(), e.render.getHeight());
        
-       return rec1.intersects(rec2);
+       return me.intersects(him);
     }
                 
     public abstract void colide(Entidade other);

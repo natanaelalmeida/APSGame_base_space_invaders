@@ -29,7 +29,7 @@ public class NaveEntidade extends Entidade{
     @Override
     public void colide(Entidade other) {
         if (other instanceof AlienEntidade) {
-            //game.notifyDeath();
+            game.morreu();
         }
     }
     

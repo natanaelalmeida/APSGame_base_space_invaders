@@ -1,6 +1,7 @@
 package UI;
 
 import abstracts.Entidade;
+import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
@@ -13,8 +14,8 @@ public class GameUI extends Canvas{
     protected int pressCount = 1;
     
     public GameUI(){
-        JFrame frm = new JFrame("Aps Game");
-        JPanel pnl = (JPanel) frm.getContentPane();
+        JFrame frm = new JFrame("Alien Attack");        
+        JPanel pnl = (JPanel) frm.getContentPane();       
         
         pnl.setPreferredSize(new Dimension(800, 600));
         pnl.setLayout(null);
@@ -30,9 +31,12 @@ public class GameUI extends Canvas{
         frm.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frm.setVisible(true);
         
-        addKeyListener(KeyInput());
-        requestFocus();                       
-    }
+        addKeyListener(KeyInput());        
+        
+        requestFocus();                
+        
+        createBufferStrategy(2);
+    }      
     
     protected void startEntidade(){
         
@@ -50,11 +54,19 @@ public class GameUI extends Canvas{
         
     }
     
+    public void removerEntidade(Entidade entidade){
+        
+    }
+    
     public void morreu(){
         
     }
     
     public void venceu(){
+        
+    }
+    
+    public void alienteMorreu(){
         
     }
     

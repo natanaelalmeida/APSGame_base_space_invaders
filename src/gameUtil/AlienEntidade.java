@@ -33,7 +33,7 @@ public class AlienEntidade extends Entidade{
         y += 10;
 
         if (y > 570) {
-            //game.notifyDeath();
+            game.morreu();
         }
     }        
 
