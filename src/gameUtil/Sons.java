@@ -46,7 +46,8 @@ public  class Sons {
         }
     }
     
-    private AudioInputStream execute(String path) throws  IOException, LineUnavailableException, UnsupportedAudioFileException{
+    private AudioInputStream execute(String path) throws  IOException, LineUnavailableException, 
+            UnsupportedAudioFileException{
         URL url = new URL(path);       
         return AudioSystem.getAudioInputStream(url);        
     }

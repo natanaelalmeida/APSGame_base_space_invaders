@@ -1,17 +1,18 @@
 package UI;
 
 import abstracts.Entidade;
-import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GameUI extends Canvas{
 
     protected int pressCount = 1;
+    protected JLabel lblPontos;
     
     public GameUI(){
         JFrame frm = new JFrame("Alien Attack");        
@@ -67,6 +68,10 @@ public class GameUI extends Canvas{
     }
     
     public void alienteMorreu(){
+        
+    }
+    
+    public void pontos(int pontos){
         
     }
     

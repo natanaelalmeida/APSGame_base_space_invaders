@@ -2,7 +2,6 @@ package model;
 
 import abstracts.Entidade;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 
 public class Game {
     private BufferStrategy bfStrategy;
@@ -34,9 +33,7 @@ public class Game {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-    
-    
+    }    
 
     public boolean isEspraKeyPress() {
         return espraKeyPress;

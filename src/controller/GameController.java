@@ -3,14 +3,13 @@ package controller;
 import Enums.Dificuldade;
 import abstracts.Entidade;
 import gameUtil.AlienEntidade;
-import gameUtil.FireEntidade;
+import gameUtil.TiroEntidade;
 import gameUtil.NaveEntidade;
 import gameUtil.Sons;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import static java.lang.System.currentTimeMillis;
@@ -123,10 +122,12 @@ public class GameController {
         eb.setSrc("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\shot.gif");
         eb.setX(x.intValue() + 10);
         eb.setY(y.intValue() - 30);
-        lstEntidade.add(new FireEntidade(gv, eb));        
+        lstEntidade.add(new TiroEntidade(gv, eb));       
+        sons.Tiro();
     }
     
     public void InitGameLoop(){
+        sons.Game();
         long UltimoLoop = currentTimeMillis();
         while(gm.isGameExec()){
             long delta = currentTimeMillis() - UltimoLoop;
@@ -137,7 +138,8 @@ public class GameController {
             g2d.fillRect(0, 0, 800, 600);
            
             try {
-                Image img = ImageIO.read(new File("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\background.gif"));
+                Image img = ImageIO.read(
+                        new File("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\background.gif"));
                 g2d.drawImage(img, 0, 0, gv);
             } catch (IOException ex) {
                 Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);

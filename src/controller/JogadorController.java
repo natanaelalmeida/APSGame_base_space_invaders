@@ -1,18 +1,24 @@
 package controller;
 
-import Repositorio.JogadorRepositorio;
+import DAO.JogadorDao;
 import model.Jogador;
-import view.CriarContaView;
 
 public class JogadorController {
     
-    private JogadorRepositorio repositorio = new JogadorRepositorio();
+    private String msgErro;
+    private JogadorDao repositorio = new JogadorDao();             
     
-    public void getCriarJogador(){
-          new CriarContaView().setVisible(true);
+    public boolean Salvar(Jogador jogador){
+        boolean status =  repositorio.Inserir(jogador);
+        msgErro = repositorio.getMsgErro();
+        return status;
     }
     
-    public void Salvar(Jogador jogador){
-        repositorio.Inserir(jogador);
+    public Jogador Selecionar(long id_jogador){
+        return repositorio.Selecionar(id_jogador);
+    }
+    
+    public String getMsgErro() {
+        return msgErro;
     }
 }

@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 
@@ -33,7 +32,8 @@ public class RenderConstruct {
             ex.printStackTrace();
         }
         
-        GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+        GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice().getDefaultConfiguration();
         Image img = gc.createCompatibleImage(bf.getWidth(), bf.getHeight(), Transparency.BITMASK);
         img.getGraphics().drawImage(bf, 0, 0, null);
         Render rd = new Render(img);

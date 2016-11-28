@@ -7,21 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "tb_jogador")
-@NamedQueries({
-    @NamedQuery(name = "TbJogador.findAll", query = "SELECT t FROM TbJogador t")
-    , @NamedQuery(name = "TbJogador.findByIdJogador", query = "SELECT t FROM TbJogador t WHERE t.idJogador = :idJogador")
-    , @NamedQuery(name = "TbJogador.findByUsuario", query = "SELECT t FROM TbJogador t WHERE t.usuario = :usuario")
-    , @NamedQuery(name = "TbJogador.findByEmail", query = "SELECT t FROM TbJogador t WHERE t.email = :email")
-    , @NamedQuery(name = "TbJogador.findByFgLogado", query = "SELECT t FROM TbJogador t WHERE t.fgLogado = :fgLogado")}
-)
 public class Jogador implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,6 +52,11 @@ public class Jogador implements Serializable {
         this.email = email;
     }
 
+     public Jogador(String usuario, String senha) {
+        this.usuario = usuario;
+        this.senha = senha;        
+    }
+    
     public Integer getIdJogador() {
         return id_jogador;
     }
@@ -86,6 +82,8 @@ public class Jogador implements Serializable {
     }
     
     public boolean Criar(){
+        fg_ativo = true;
+        fg_logado = false;
         return (!usuario.equals("") ? true : false) 
                 &&(!senha.equals("")? true : false)
                 &&(!email.equals("")? true : false);

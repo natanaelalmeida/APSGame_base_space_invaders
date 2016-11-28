@@ -4,7 +4,6 @@ import gameUtil.Render;
 import gameUtil.RenderConstruct;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import model.EntidadeBase;
 
 public abstract class Entidade {
     protected double x;

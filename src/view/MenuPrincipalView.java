@@ -13,7 +13,7 @@ public class MenuPrincipalView extends MenuPrincipalUI{
 
     @Override
     protected void btnRanking_OnClick(ActionEvent e) {
-        super.btnRanking_OnClick(e); //To change body of generated methods, choose Tools | Templates.
+        super.btnRanking_OnClick(e);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class MenuPrincipalView extends MenuPrincipalUI{
 
     @Override
     protected void btnSair_OnClick(ActionEvent e) {
-        super.btnSair_OnClick(e); //To change body of generated methods, choose Tools | Templates.
+        super.btnSair_OnClick(e); 
     }        
     
     public static void main(String[] args) {
