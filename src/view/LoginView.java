@@ -4,7 +4,8 @@ import Enums.Jogar;
 import UI.LoginUI;
 import controller.LoginController;
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import model.Jogador;
 
@@ -12,7 +13,7 @@ public class LoginView extends LoginUI{
 
     private Jogar jogar;
     private Jogador jogador;
-    private HashMap<Integer, Jogador> hashJogador = new HashMap<>();
+    private List<Jogador> hashJogador = new ArrayList<>();
     private LoginController loginController = new LoginController();
     
     public LoginView(Jogar jogar){
@@ -34,14 +35,16 @@ public class LoginView extends LoginUI{
             switch(jogar){
                 case Um :
                     new MenuDificuldadeView(jogador).setVisible(true);
+                    hide();
                     break;
                 case Dois:
-                    if(hashJogador.size() >= 1){
-                        hashJogador.put(jogador.getIdJogador(), jogador);
+                    if(hashJogador.size() >= 1){                        
+                        hashJogador.add(jogador);
                         new MenuDificuldadeView(hashJogador).setVisible(true);
+                        hide();
                     }
                     else {
-                        hashJogador.put(jogador.getIdJogador(), jogador);
+                        hashJogador.add( jogador);
                         txtSenha.setText("");
                         txtUsuario.setText("");
                         txtUsuario.requestFocus();

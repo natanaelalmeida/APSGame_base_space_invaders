@@ -18,6 +18,36 @@ public class Game {
     private boolean rightPressed;   
     private boolean tiroPressionado;    
     private boolean loop;
+    
+    private int pontos;
+    private boolean pause;
+    private boolean telaPause;
+
+    public boolean isTelaPause() {
+        return telaPause;
+    }
+
+    public void setTelaPause(boolean telaPause) {
+        this.telaPause = telaPause;
+    }
+    
+    
+
+    public boolean isPause() {
+        return pause;
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }        
+
+    public int getPontos() {
+        return pontos;
+    }
+
+    public void setPontos(int pontos) {
+        this.pontos = pontos;
+    }        
 
     public BufferStrategy getBfStrategy() {
         return bfStrategy;

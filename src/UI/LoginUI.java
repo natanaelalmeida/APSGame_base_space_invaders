@@ -1,8 +1,11 @@
 package UI;
 
-import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,47 +22,49 @@ public class LoginUI extends JFrame{
     protected JPasswordField txtSenha;
     
     protected JButton btnEntrar;
+    private Image img;	
     
     public LoginUI(){
-        setTitle("Login");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 321, 268);
+        img = new ImageIcon("resources/login.jpg").getImage();
+		
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, img.getWidth(null), img.getHeight(null));
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
         contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-        lblPreenchaOsCampos = new JLabel("Preencha os campos abaixo para acessar o jogo.");
-        lblPreenchaOsCampos.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
-        lblPreenchaOsCampos.setBounds(10, 11, 284, 30);
-        contentPane.add(lblPreenchaOsCampos);
+        Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+        contentPane.setPreferredSize(size);
+        contentPane.setMinimumSize(size);
+        contentPane.setMaximumSize(size);
+        contentPane.setSize(size);			
 
-        txtUsuario = new JTextField(10);
-        txtUsuario.setColumns(10);
-        txtUsuario.setBounds(10, 69, 284, 30);
+        txtUsuario = new JTextField();
+        txtUsuario.setBounds(25, 110, 390, 26);
         contentPane.add(txtUsuario);
-
-        JLabel lblUsurio = new JLabel("Usuário");
-        lblUsurio.setFont(new Font("Arial", Font.BOLD, 12));
-        lblUsurio.setBounds(10, 44, 46, 14);
-        contentPane.add(lblUsurio);
-
-        JLabel lblSenha = new JLabel("Senha");
-        lblSenha.setFont(new Font("Arial", Font.BOLD, 12));
-        lblSenha.setBounds(10, 110, 46, 14);
-        contentPane.add(lblSenha);
-
-        btnEntrar = new JButton("Entrar");
-        btnEntrar.addActionListener(btnEntrarOnClick);
-        btnEntrar.setBounds(10, 176, 284, 41);
-        contentPane.add(btnEntrar);
+        txtUsuario.setColumns(10);
 
         txtSenha = new JPasswordField();
-        txtSenha.setBounds(10, 135, 284, 30);
+        txtSenha.setBounds(25, 170, 390, 26);
         contentPane.add(txtSenha);
-        
+        txtSenha.setColumns(10);
+
+        btnEntrar = new JButton("");
+        btnEntrar.setIcon(new ImageIcon("resources/entrar.jpg"));
+        btnEntrar.setBounds(160, 230, 116, 56);
+        btnEntrar.addActionListener(btnEntrarOnClick);
+        contentPane.add(btnEntrar);        
+
         setLocationRelativeTo(this);
         setResizable(false);
+        setVisible(true);
+    }
+    
+    @Override
+    public void paint(Graphics g) {	
+        super.paint(g);
+        g.drawImage(img,0, 0, null);
     }
     
     private AbstractAction btnEntrarOnClick = new AbstractAction() {

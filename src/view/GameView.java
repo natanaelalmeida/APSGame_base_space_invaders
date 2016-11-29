@@ -6,7 +6,7 @@ import abstracts.Entidade;
 import controller.GameController;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import model.EntidadeBase;
 import model.Game;
 import model.Jogador;
@@ -20,20 +20,20 @@ public class GameView extends GameUI implements Runnable{
     private final ArrayList<Entidade> lstEntidadeRemovidas = new ArrayList<>();    
     
     private Jogador jogador;
-    private HashMap<Integer, Jogador> hashJogador = new HashMap<>();
+    private List<Jogador> lstJogador = new ArrayList<>();
         
     public GameView(Dificuldade dificuldade, Jogador jogador){  
         super();        
         
-        gameController = new GameController(this, lstEntidade, lstEntidadeRemovidas);                       
+        gameController = new GameController(this, lstEntidade, lstEntidadeRemovidas, jogador);                       
         gm = gameController.BaseGame(dificuldade, getBufferStrategy());        
         startEntidade();
     }
     
-      public GameView(Dificuldade dificuldade, HashMap<Integer, Jogador> hashjogador){  
+      public GameView(Dificuldade dificuldade, List<Jogador> lstJogador){  
         super();        
-        this.hashJogador = hashjogador;
-        gameController = new GameController(this, lstEntidade, lstEntidadeRemovidas);                       
+        this.lstJogador = lstJogador;
+        gameController = new GameController(this, lstEntidade, lstEntidadeRemovidas, lstJogador);                       
         gm = gameController.BaseGame(dificuldade, getBufferStrategy());        
         startEntidade();
     }
@@ -93,11 +93,6 @@ public class GameView extends GameUI implements Runnable{
     public void removerEntidade(Entidade entidade) {
         gameController.removerEntidade(entidade);
     }       
-
-    @Override
-    public void pontos(int pontos) {
-        lblPontos.setText("PONTUAÇÃO: " + pontos);
-    }
         
     @Override
     public void KeyPressed(KeyEvent e) {
@@ -117,8 +112,8 @@ public class GameView extends GameUI implements Runnable{
             gm.setTiroPressionado(true);
         }        
         
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            gm.setGameExec(false);
+        if(e.getKeyCode() == KeyEvent.VK_P){            
+            gm.setPause(!gm.isPause() ? true : false);            
         } 
     }        
 
@@ -138,11 +133,7 @@ public class GameView extends GameUI implements Runnable{
         
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
             gm.setTiroPressionado(false);
-        } 
-        
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-            gm.setGameExec(true);
-        } 
+        }                 
     }        
 
     @Override
@@ -162,6 +153,12 @@ public class GameView extends GameUI implements Runnable{
             System.exit(0);
         }
     }    
+    
+    public void close(){
+        gm.setGameExec(false);
+        Thread.interrupted();
+        hide();
+    }
     
     @Override
     public void run() {

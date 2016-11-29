@@ -57,7 +57,6 @@ public class CriarContaView extends CriarContaUI{
     @Override
     protected void btnCancelar_OnClick(ActionEvent e) {
         hide();
-        new MenuPrincipalView().setVisible(true);
     }        
     
 }

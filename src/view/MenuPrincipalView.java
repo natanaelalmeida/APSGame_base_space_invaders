@@ -6,8 +6,7 @@ import java.awt.event.ActionEvent;
 public class MenuPrincipalView extends MenuPrincipalUI{
     
     @Override
-    protected void btnJogar_OnClick(ActionEvent e) {
-        hide();
+    protected void btnJogar_OnClick(ActionEvent e) {        
         new MenuJogarView().setVisible(true);
     }
 
@@ -17,8 +16,7 @@ public class MenuPrincipalView extends MenuPrincipalUI{
     }
 
     @Override
-    protected void btnCriarConta_OnClick(ActionEvent e) {
-        hide();
+    protected void btnCriarConta_OnClick(ActionEvent e) {        
         new CriarContaView().setVisible(true);
     }
 

@@ -1,8 +1,12 @@
 package UI;
 
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,41 +19,54 @@ public class MenuDificuldadeUI extends JFrame {
     protected JButton btnFacil;
     protected JButton btnMedio;
     protected JButton btnDificil;
+    
+    private Image img;
 
     public MenuDificuldadeUI() {
-        setTitle("Dificuldade");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 299, 244);
-
+         img = new ImageIcon("resources/menu.jpg").getImage();
+		
+        setTitle("Menu Jogar");        
+        setBounds(100, 100, img.getWidth(null), img.getHeight(null));
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
         contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-        btnFacil = new JButton("Fácil");
-        btnFacil.setBounds(10, 41, 263, 41);
+        Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+        contentPane.setPreferredSize(size);
+        contentPane.setMinimumSize(size);
+        contentPane.setMaximumSize(size);
+        contentPane.setSize(size);
+
+        btnFacil = new JButton("");
+        btnFacil.setIcon(new ImageIcon("resources/Facil.jpg"));
+        btnFacil.setBounds(250, 80, 299, 75);
         btnFacil.addActionListener(btnFacilOnClick);
         contentPane.add(btnFacil);
 
-        btnMedio = new JButton("Médio");
-        btnMedio.setBounds(10, 93, 263, 41);
+        btnMedio = new JButton("");
+        btnMedio.setIcon(new ImageIcon("resources/Medio.jpg"));
+        btnMedio.setBounds(250, 80 * 2, 299, 75);
         btnMedio.addActionListener(btnMedioOnClick);
         contentPane.add(btnMedio);
 
-        btnDificil = new JButton("Díficil");
-        btnDificil.setBounds(10, 145, 263, 41);
+        btnDificil = new JButton("");
+        btnDificil.setIcon(new ImageIcon("resources/Dificil.jpg"));
+        btnDificil.setBounds(250, 80 * 3, 299, 75);
         btnDificil.addActionListener(btnDificilOnClick);
         contentPane.add(btnDificil);
 
-        JLabel lblEscolhaAbaixoCom = new JLabel("Escolha o nível que deseja jogar...");
-        lblEscolhaAbaixoCom.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
-        lblEscolhaAbaixoCom.setBounds(10, 11, 284, 30);
-        contentPane.add(lblEscolhaAbaixoCom);
-        
         setLocationRelativeTo(this);
         setResizable(false);
+        setVisible(true); 
     }
 
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.drawImage(img,0, 0, null);
+    }
+    
     private AbstractAction btnFacilOnClick = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {

@@ -1,11 +1,13 @@
 package UI;
 
-import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -22,67 +24,66 @@ public class CriarContaUI extends JFrame{
     protected JButton btnLimpar;
     protected JButton btnCancelar;
             
+    private Image img;
     
     public CriarContaUI(){
-        setTitle("Criar Conta");
+        img = new ImageIcon("resources/cadastro.jpg").getImage();
+		
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 317, 323);
+        setBounds(100, 100, img.getWidth(null), img.getHeight(null));
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
         contentPane.setLayout(null);
+        setContentPane(contentPane);
 
-        JLabel lblPreenchaOsCampos = new JLabel("Preencha os campos abaixo para realizar o cadastro.");
-        lblPreenchaOsCampos.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 10));
-        lblPreenchaOsCampos.setBounds(10, 11, 284, 30);
-        contentPane.add(lblPreenchaOsCampos);
-
-        JLabel lblEmail = new JLabel("Email");
-        lblEmail.setFont(new Font("Arial", Font.BOLD, 12));
-        lblEmail.setBounds(10, 41, 46, 14);
-        contentPane.add(lblEmail);
+        Dimension size = new Dimension(img.getWidth(null), img.getHeight(null));
+        contentPane.setPreferredSize(size);
+        contentPane.setMinimumSize(size);
+        contentPane.setMaximumSize(size);
+        contentPane.setSize(size);			
 
         txtEmail = new JTextField();
-        txtEmail.setBounds(10, 59, 284, 30);
+        txtEmail.setBounds(25, 130, 390, 26);
         contentPane.add(txtEmail);
         txtEmail.setColumns(10);
 
-        txtUsuario = new JTextField(10);
-        txtUsuario.setColumns(10);
-        txtUsuario.setBounds(10, 125, 284, 30);
+        txtUsuario = new JTextField();
+        txtUsuario.setBounds(25, 185, 390, 26);
         contentPane.add(txtUsuario);
+        txtEmail.setColumns(10);
 
-        JLabel lblUsurio = new JLabel("Usu\u00E1rio");
-        lblUsurio.setFont(new Font("Arial", Font.BOLD, 12));
-        lblUsurio.setBounds(10, 100, 46, 14);
-        contentPane.add(lblUsurio);
+        txtSenha = new JPasswordField();
+        txtSenha.setBounds(25, 240, 390, 26);
+        contentPane.add(txtSenha);
+        txtSenha.setColumns(10);
 
-        JLabel lblSenha = new JLabel("Senha");
-        lblSenha.setFont(new Font("Arial", Font.BOLD, 12));
-        lblSenha.setBounds(10, 166, 46, 14);
-        contentPane.add(lblSenha);
-
-        btnSalvar = new JButton("Salvar");
-        btnSalvar.setBounds(208, 232, 89, 41);
+        btnSalvar = new JButton("");
+        btnSalvar.setIcon(new ImageIcon("resources/salvar.jpg"));
+        btnSalvar.setBounds(295, 320, 116, 56);
         btnSalvar.addActionListener(btnSalvarOnClick);
         contentPane.add(btnSalvar);
 
-        btnLimpar = new JButton("Limpar");
-        btnLimpar.setBounds(109, 232, 89, 41);
+        btnLimpar = new JButton("");
+        btnLimpar.setIcon(new ImageIcon("resources/limpar.jpg"));
+        btnLimpar.setBounds(162, 320, 116, 56);
         btnLimpar.addActionListener(btnLimparOnClick);
         contentPane.add(btnLimpar);
 
-        btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBounds(10, 232, 89, 41);
+        btnCancelar = new JButton("");
+        btnCancelar.setIcon(new ImageIcon("resources/cancelar.jpg"));
+        btnCancelar.setBounds(30, 320, 116, 56);
         btnCancelar.addActionListener(btnCancelarOnClick);
         contentPane.add(btnCancelar);
 
-        txtSenha = new JPasswordField();
-        txtSenha.setBounds(10, 191, 284, 30);
-        contentPane.add(txtSenha);
-        
         setLocationRelativeTo(this);
         setResizable(false);
+        setVisible(true);
+    }
+    
+    @Override
+    public void paint(Graphics g) {	
+        super.paint(g);
+        g.drawImage(img,0, 0, this);		
     }
     
     private AbstractAction btnSalvarOnClick = new AbstractAction() {
