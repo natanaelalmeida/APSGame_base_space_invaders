@@ -13,10 +13,11 @@ public class GameUI extends Canvas{
 
     protected int pressCount = 1;
     protected JLabel lblPontos;
+    protected JFrame frmGame;
     
     public GameUI(){
-        JFrame frm = new JFrame("Alien Attack");        
-        JPanel pnl = (JPanel) frm.getContentPane();       
+        frmGame = new JFrame("Alien Attack");        
+        JPanel pnl = (JPanel) frmGame.getContentPane();       
         
         pnl.setPreferredSize(new Dimension(800, 600));
         pnl.setLayout(null);
@@ -27,10 +28,10 @@ public class GameUI extends Canvas{
         setIgnoreRepaint(false);               
         
         //frm.setLocationRelativeTo(null);
-        frm.pack();
-        frm.setResizable(false);
-        frm.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frm.setVisible(true);
+        frmGame.pack();
+        frmGame.setResizable(false);
+        frmGame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frmGame.setVisible(true);
         
         addKeyListener(KeyInput());        
         

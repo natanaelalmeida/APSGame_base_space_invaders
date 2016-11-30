@@ -13,37 +13,60 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public  class Sons {
     
-    public void Tiro() {
+    private Clip clip;
+    
+    public Clip Tiro() {
         try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(execute("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\shipShot.wav"));
+            clip = AudioSystem.getClip();
+            clip.open(execute(getClass().getResource("/shipShot.wav").toString()));
             clip.loop(0);
             
         } catch (LineUnavailableException | IOException | UnsupportedAudioFileException ex) {
             Logger.getLogger(Sons.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+         return clip;
     }
     
-    public void Game(){
+    public Clip Game(){
          try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(execute("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\gameSong.wav"));
+            clip = AudioSystem.getClip();
+            clip.open(execute(getClass().getResource("/gameSong.wav").toString()));
+            clip.loop(Clip.LOOP_CONTINUOUSLY);                        
+        } catch (LineUnavailableException | IOException | UnsupportedAudioFileException ex) {
+            Logger.getLogger(Sons.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+         return clip;
+    }
+    
+    public Clip Menu(){
+         try {
+            clip = AudioSystem.getClip();
+            clip.open(execute(getClass().getResource("/menuSong.wav").toString()));
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             
         } catch (LineUnavailableException | IOException | UnsupportedAudioFileException ex) {
             Logger.getLogger(Sons.class.getName()).log(Level.SEVERE, null, ex);
         }
+         
+        return clip;
     }
     
-    public void Menu(){
-         try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(execute("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\menuSong.wav"));
-             clip.loop(Clip.LOOP_CONTINUOUSLY);
-            
+    public Clip AlienKill(){
+        try{
+            clip = AudioSystem.getClip();
+            clip.open(execute(getClass().getResource("/alienKill.wav").toString()));
+            clip.loop(0);
         } catch (LineUnavailableException | IOException | UnsupportedAudioFileException ex) {
             Logger.getLogger(Sons.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return clip;
+    }
+    
+    public void Close(){
+        clip.stop();
     }
     
     private AudioInputStream execute(String path) throws  IOException, LineUnavailableException, 

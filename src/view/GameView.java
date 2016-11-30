@@ -14,7 +14,7 @@ import model.Jogador;
 public class GameView extends GameUI implements Runnable{
 
     private final GameController gameController;
-    private Game gm;
+    private Game game;
     private EntidadeBase eb;
     private final ArrayList<Entidade> lstEntidade = new ArrayList<>();
     private final ArrayList<Entidade> lstEntidadeRemovidas = new ArrayList<>();    
@@ -26,7 +26,7 @@ public class GameView extends GameUI implements Runnable{
         super();        
         
         gameController = new GameController(this, lstEntidade, lstEntidadeRemovidas, jogador);                       
-        gm = gameController.BaseGame(dificuldade, getBufferStrategy());        
+        game = gameController.BaseGame(dificuldade, getBufferStrategy());        
         startEntidade();
     }
     
@@ -34,7 +34,7 @@ public class GameView extends GameUI implements Runnable{
         super();        
         this.lstJogador = lstJogador;
         gameController = new GameController(this, lstEntidade, lstEntidadeRemovidas, lstJogador);                       
-        gm = gameController.BaseGame(dificuldade, getBufferStrategy());        
+        game = gameController.BaseGame(dificuldade, getBufferStrategy());        
         startEntidade();
     }
 
@@ -43,21 +43,21 @@ public class GameView extends GameUI implements Runnable{
         lstEntidade.clear();
         startEntidade();
               
-        gm.setLeftPressed(false);
-        gm.setRightPressed(false);
-        gm.setTiroPressionado(false);
+        game.setLeftPressed(false);
+        game.setRightPressed(false);
+        game.setTiroPressionado(false);
     }        
     
     @Override
     protected void startEntidade() {
         eb = new EntidadeBase();
-        eb.setSrc("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\ship.gif");
+        eb.setSrc("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\resources\\ship.gif");
         eb.setX(370);
         eb.setY(550);
         gameController.iniciaNave(eb);
         
         eb = new EntidadeBase();
-        eb.setSrc("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\alien.gif");
+        eb.setSrc("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\resources\\alien.gif");
         eb.setX(100);
         eb.setY(50);
         gameController.iniciaAlien(eb);        
@@ -80,8 +80,8 @@ public class GameView extends GameUI implements Runnable{
 
     @Override
     public void venceu() {
-        gm.setMessage("Venceu! Menos na vida");
-        gm.setEspraKeyPress(true);
+        game.setMessage("Venceu! Menos na vida");
+        game.setEspraKeyPress(true);
     }        
 
     @Override
@@ -96,51 +96,62 @@ public class GameView extends GameUI implements Runnable{
         
     @Override
     public void KeyPressed(KeyEvent e) {
-        if(gm.isEspraKeyPress()){
+        if(game.isEspraKeyPress()){
             return;
         }
         
         if(e.getKeyCode() == KeyEvent.VK_LEFT){
-            gm.setLeftPressed(true);
+            game.setLeftPressed(true);
         }
         
         if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-            gm.setRightPressed(true);
+            game.setRightPressed(true);
         }
         
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
-            gm.setTiroPressionado(true);
+            game.setTiroPressionado(true);
         }        
         
         if(e.getKeyCode() == KeyEvent.VK_P){            
-            gm.setPause(!gm.isPause() ? true : false);            
+            game.setPause(!game.isPause() ? true : false);           
+            if(game.isPause()){
+                new MenuPauseView(game, this).setVisible(true);
+            }
         } 
+        
+        if(e.getKeyCode() == KeyEvent.VK_M){
+            game.setGameMudo(!game.isGameMudo() ? true : false);
+            if(game.isGameMudo())
+                gameController.Mudo();
+            else
+                gameController.Som();
+        }
     }        
 
     @Override
     public void KeyReleased(KeyEvent e) {
-         if(gm.isEspraKeyPress()){
+         if(game.isEspraKeyPress()){
             return;
         }
         
         if(e.getKeyCode() == KeyEvent.VK_LEFT){
-            gm.setLeftPressed(false);
+            game.setLeftPressed(false);
         }
         
         if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-            gm.setRightPressed(false);
+            game.setRightPressed(false);
         }
         
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
-            gm.setTiroPressionado(false);
+            game.setTiroPressionado(false);
         }                 
     }        
 
     @Override
     public void KeyTyped(KeyEvent e) {
-        if(gm.isEspraKeyPress()){
+        if(game.isEspraKeyPress()){
             if(pressCount == 1){
-                gm.setEspraKeyPress(false);
+                game.setEspraKeyPress(false);
                 startGame();
                 pressCount = 0;
             }
@@ -155,9 +166,10 @@ public class GameView extends GameUI implements Runnable{
     }    
     
     public void close(){
-        gm.setGameExec(false);
-        Thread.interrupted();
-        hide();
+        game.setGameExec(false);
+        gameController.Mudo();
+        Thread.interrupted();        
+        frmGame.setVisible(false);
     }
     
     @Override

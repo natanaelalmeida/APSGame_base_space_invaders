@@ -3,6 +3,7 @@ package view;
 import Enums.Jogar;
 import UI.LoginUI;
 import controller.LoginController;
+import gameUtil.Sons;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +12,15 @@ import model.Jogador;
 
 public class LoginView extends LoginUI{
 
+    private Sons sons;
     private Jogar jogar;
     private Jogador jogador;
     private List<Jogador> hashJogador = new ArrayList<>();
     private LoginController loginController = new LoginController();
-    
-    public LoginView(Jogar jogar){
-        this.jogar = jogar;                            
+        
+    public LoginView(Jogar jogar, Sons sons){
+        this.jogar = jogar;                   
+        this.sons = sons;
     }
     
     @Override
@@ -34,19 +37,18 @@ public class LoginView extends LoginUI{
         else if((jogador = loginController.Entrar(new Jogador(txtUsuario.getText(), txtSenha.getText()))) != null){
             switch(jogar){
                 case Um :
-                    new MenuDificuldadeView(jogador).setVisible(true);
+                    new MenuDificuldadeView(jogador, sons).setVisible(true);
                     hide();
                     break;
                 case Dois:
                     if(hashJogador.size() >= 1){                        
                         hashJogador.add(jogador);
-                        new MenuDificuldadeView(hashJogador).setVisible(true);
+                        new MenuDificuldadeView(hashJogador, sons).setVisible(true);
                         hide();
                     }
                     else {
                         hashJogador.add( jogador);
-                        txtSenha.setText("");
-                        txtUsuario.setText("");
+                        LimparCampos();
                         txtUsuario.requestFocus();
                         
                         JOptionPane.showMessageDialog(this, 
@@ -56,9 +58,18 @@ public class LoginView extends LoginUI{
             }            
         }
         else {
+            
+            txtSenha.setText("");
+            txtUsuario.requestFocus();
+            
             JOptionPane.showMessageDialog(this, 
                 "Usuário ou senha inválidos!",
-                "Alerta!", JOptionPane.WARNING_MESSAGE);
+                "Alerta!", JOptionPane.WARNING_MESSAGE);                        
         }
+    }
+    
+    private void LimparCampos(){
+        txtSenha.setText("");
+        txtUsuario.setText("");
     }
 }

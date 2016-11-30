@@ -40,6 +40,10 @@ public class Pontuacao implements Serializable {
         this.pontuacao = pontuacao;
     }
 
+    public void setPontuacao(int pontuacao) {
+        this.pontuacao = pontuacao;
+    }   
+    
     public Integer getIdPontuacao() {
         return id_pontuacao;
     }

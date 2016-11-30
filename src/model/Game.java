@@ -22,7 +22,16 @@ public class Game {
     private int pontos;
     private boolean pause;
     private boolean telaPause;
+    private boolean gameMudo;
 
+    public boolean isGameMudo() {
+        return gameMudo;
+    }
+
+    public void setGameMudo(boolean gameMudo) {
+        this.gameMudo = gameMudo;
+    }    
+    
     public boolean isTelaPause() {
         return telaPause;
     }
@@ -30,8 +39,6 @@ public class Game {
     public void setTelaPause(boolean telaPause) {
         this.telaPause = telaPause;
     }
-    
-    
 
     public boolean isPause() {
         return pause;

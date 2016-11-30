@@ -1,18 +1,28 @@
 package view;
 
 import UI.MenuPrincipalUI;
+import gameUtil.Sons;
 import java.awt.event.ActionEvent;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class MenuPrincipalView extends MenuPrincipalUI{
     
+    Sons sons = new Sons();
+    
+    public MenuPrincipalView(){
+        sons.Menu();
+    }        
+    
     @Override
     protected void btnJogar_OnClick(ActionEvent e) {        
-        new MenuJogarView().setVisible(true);
+        new MenuJogarView(sons).setVisible(true);
     }
 
     @Override
     protected void btnRanking_OnClick(ActionEvent e) {
-        super.btnRanking_OnClick(e);
+        new RankingView().setVisible(true);
     }
 
     @Override
@@ -21,12 +31,15 @@ public class MenuPrincipalView extends MenuPrincipalUI{
     }
 
     @Override
-    protected void btnSair_OnClick(ActionEvent e) {
-        super.btnSair_OnClick(e); 
+    protected void btnSair_OnClick(ActionEvent e) {        
+        setVisible(false);
     }        
     
     public static void main(String[] args) {
         new MenuPrincipalView().setVisible(true);
+        
+        EntityManagerFactory entityFactory = Persistence.createEntityManagerFactory("ApsGamePU");
+        entityFactory.createEntityManager();
     }
     
 }

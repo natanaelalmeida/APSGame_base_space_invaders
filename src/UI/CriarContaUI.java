@@ -29,7 +29,7 @@ public class CriarContaUI extends JFrame{
     public CriarContaUI(){
         img = new ImageIcon("resources/cadastro.jpg").getImage();
 		
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Criar Conta");        
         setBounds(100, 100, img.getWidth(null), img.getHeight(null));
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

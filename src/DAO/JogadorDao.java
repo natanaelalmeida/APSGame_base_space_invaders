@@ -1,5 +1,7 @@
 package DAO;
 
+import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -46,7 +48,7 @@ public class JogadorDao {
     
     public Jogador Login(Jogador jogador){
         entityFactory = Persistence.createEntityManagerFactory("ApsGamePU");
-        entityManager = entityFactory.createEntityManager();
+        entityManager = entityFactory.createEntityManager();                
         
         query = entityManager.createQuery("SELECT j FROM Jogador j "
                 + "where j.usuario = :usuario and j.senha = :senha "
@@ -55,7 +57,13 @@ public class JogadorDao {
         query.setParameter("usuario", jogador.getUsuario());
         query.setParameter("senha", jogador.getSenha());
         
-        Jogador j = (Jogador)query.getSingleResult();
+        List<Jogador> lst = (List<Jogador>)query.getResultList();                
+        Optional<Jogador> op = lst.stream().filter(e -> e != null ).findFirst();
+        
+        Jogador j = null    ;
+        if(op.isPresent())
+            j = op.get();
+        
         entityManager.close();
         entityFactory.close();
         return j;

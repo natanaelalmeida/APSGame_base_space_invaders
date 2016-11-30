@@ -1,5 +1,6 @@
 package controller;
 
+import DAO.PontuacaoDao;
 import Enums.Dificuldade;
 import Enums.Jogar;
 import abstracts.Entidade;
@@ -12,14 +13,12 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferStrategy;
-import java.io.File;
-import java.io.IOException;
 import static java.lang.System.currentTimeMillis;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
+import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
 import model.EntidadeBase;
 import model.Game;
 import model.Jogador;
@@ -28,7 +27,8 @@ import view.GameView;
 import view.PontuacaoView;
 
 public class GameController {
-
+    
+    private PontuacaoDao pontuacaDao = new PontuacaoDao();
     private final Sons sons = new Sons();
 
     private final GameView gv;
@@ -46,8 +46,14 @@ public class GameController {
     private Jogador jogadorAtual;
     private List<Jogador> lstJogador;
     private List<Pontuacao> lstPontuacao = new ArrayList<>();
-    private int qtdJogada = 0;
+    private int qtdJogada = 1;
     private boolean partidaIniciada2Jogadores;
+    
+    private HashMap<Integer, Jogador> hashJogador = new HashMap<>();
+    
+    private Clip tiro;
+    private Clip game;
+    private boolean tiroNull = true;
     
     public GameController(GameView gv, ArrayList<Entidade> lstEntidade, ArrayList<Entidade> lstEntidadeRemover, Jogador jogador) {
         this.gv = gv;
@@ -143,29 +149,26 @@ public class GameController {
         Double x = nave.getX();
         Double y = nave.getY();
 
-        eb.setSrc("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\shot.gif");
+        eb.setSrc("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\resources\\shot.gif");        
         eb.setX(x.intValue() + 10);
         eb.setY(y.intValue() - 30);
         lstEntidade.add(new TiroEntidade(gv, eb));
-        //sons.Tiro();
+        
+        if(tiroNull)
+            tiro = sons.Tiro();
     }
 
-    public void InitGameLoop() {
-        //sons.Game();
+    public void InitGameLoop() {        
         long UltimoLoop = currentTimeMillis();
+        game = sons.Game();
         while (gm.isGameExec()) {
             long delta = currentTimeMillis() - UltimoLoop;
             UltimoLoop = currentTimeMillis();
 
             Graphics2D g2d = (Graphics2D) gm.getbfStrategy().getDrawGraphics();
-
-            try {
-                Image img = ImageIO.read(
-                        new File("C:\\Users\\USER\\Desktop\\ApsGame\\ApsGame\\ApsGame\\src\\resources\\background.gif"));
+              
+                Image img = new ImageIcon("resources/background.gif").getImage();
                 g2d.drawImage(img, 0, 0, gv);
-            } catch (IOException ex) {
-                Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
             g2d.setColor(Color.white);
             g2d.drawString("PONTUAÇÃO: " + gm.getPontos(), 15, 20);
@@ -211,16 +214,14 @@ public class GameController {
                 }
 
                 if (gm.isEspraKeyPress()) {
+                    game.start();
                     g2d.setColor(Color.white);
                     g2d.setFont(new Font("Abduction2002", Font.BOLD, 70));
                     g2d.drawString(gm.getMessage(),
                             (800 - g2d.getFontMetrics().stringWidth(gm.getMessage())) / 2, 250);
 
                     if(jogar == Jogar.Dois){                                                        
-                        if(!partidaIniciada2Jogadores){                            
-                            JogarDeDois(g2d);                           
-                            partidaIniciada2Jogadores = true;
-                        }                    
+                        JogarDeDois();                    
                         
                         g2d.setFont(new Font("Abduction2002", Font.BOLD, 16));
                         g2d.drawString(qtdJogada <= 1 ? "Pressione qualquer tecla para Iniciar a partida do 1 jogador" 
@@ -278,7 +279,7 @@ public class GameController {
         lstEntidade.stream().filter((e) -> (e instanceof AlienEntidade)).forEachOrdered((e) -> {
             e.setMovX(e.getMovX() * 1.02);
         });
-
+        
         gm.setPontos(gm.getPontos() + 100);
     }
 
@@ -289,27 +290,70 @@ public class GameController {
     private void jogardorGanhou() { 
         gm.setMessage("VITORIA");
         gm.setEspraKeyPress(true);
-                
-        lstPontuacao.add(new Pontuacao(jogadorAtual, gm.getPontos()));
-        partidaIniciada2Jogadores = false;
+        
+        if(jogar == Jogar.Um){
+            JogadorDeUm(new Pontuacao(jogadorAtual, gm.getPontos()));
+        }
+        else if(jogar == Jogar.Dois && qtdJogada == 1){
+           lstPontuacao.add(new Pontuacao(jogadorAtual, gm.getPontos()));  
+           jogadorAtual = lstJogador.get(1);
+           qtdJogada++;
+        }        
+        
+        tiro.stop();               
     }
 
     public void jogadorPerdeu() {
         gm.setMessage("DERROTA");
         gm.setEspraKeyPress(true);
+                
         
-        lstPontuacao.add(new Pontuacao(jogadorAtual, gm.getPontos()));
-        partidaIniciada2Jogadores = false;
+        if(jogar == Jogar.Um){
+            JogadorDeUm(new Pontuacao(jogadorAtual, gm.getPontos()));
+        }
+        else if(jogar == Jogar.Dois && qtdJogada == 1){
+           lstPontuacao.add(new Pontuacao(jogadorAtual, gm.getPontos())); 
+           jogadorAtual = lstJogador.get(1);
+           qtdJogada++;
+        }                 
+        else if(jogar == Jogar.Dois && lstPontuacao.size() == 1 && hashJogador.size() == 2){
+            lstPontuacao.add(new Pontuacao(jogadorAtual, gm.getPontos())); 
+        }
+        
+        tiro.stop();
     }
     
-    private void JogarDeDois(Graphics2D g2d){
-        if(qtdJogada < 2){
-            jogadorAtual = lstJogador.get(qtdJogada);
-            qtdJogada++;        
-        }  
-        else if(lstPontuacao.size() >= 2){            
-            gv.close();                 
-            new PontuacaoView(lstPontuacao);            
+    public void Mudo(){        
+        tiroNull = false;
+        game.stop();
+    }
+    
+    public void Som(){
+        tiroNull = true;
+        game.start();
+    }
+    
+    private void JogarDeDois(){
+        
+        if(!hashJogador.containsKey(jogadorAtual.getIdJogador())){
+            hashJogador.put(jogadorAtual.getIdJogador(), jogadorAtual);
         }
+        else if(hashJogador.size() == 2 && lstPontuacao.size() > 1){
+            gv.close();                 
+            new PontuacaoView(lstPontuacao);    
+        }       
+    }
+    
+    private void JogadorDeUm(Pontuacao pontuacao){
+        Pontuacao j1 = pontuacaDao.SelecionarPorJogador(jogadorAtual);
+        
+        if(j1 != null){
+            j1.setPontuacao(pontuacao.getPontuacao());
+        }
+        else {
+            j1 = pontuacao;
+        }
+        
+        pontuacaDao.Insert(j1);
     }
 }
