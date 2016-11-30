@@ -7,6 +7,7 @@ import controller.GameController;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.EntidadeBase;
 import model.Game;
 import model.Jogador;
@@ -96,8 +97,11 @@ public class GameView extends GameUI implements Runnable{
         
     @Override
     public void KeyPressed(KeyEvent e) {
-        if(game.isEspraKeyPress()){
-            return;
+       
+        if(e.getKeyCode() != KeyEvent.VK_F1){
+            if(game.isEspraKeyPress()){
+                return;
+            }
         }
         
         if(e.getKeyCode() == KeyEvent.VK_LEFT){
@@ -126,14 +130,23 @@ public class GameView extends GameUI implements Runnable{
             else
                 gameController.Som();
         }
+        
+        if(e.getKeyCode() == KeyEvent.VK_F1){                        
+            
+            game.setPause(!game.isPause() ? true : false);    
+            if(game.isPause()){
+                /*Chama a view aqui*/
+                JOptionPane.showConfirmDialog(null, "TEste");
+            }
+        }
     }        
 
     @Override
-    public void KeyReleased(KeyEvent e) {
-         if(game.isEspraKeyPress()){
+    public void KeyReleased(KeyEvent e) {       
+        if(game.isEspraKeyPress()){
             return;
-        }
-        
+        }                 
+         
         if(e.getKeyCode() == KeyEvent.VK_LEFT){
             game.setLeftPressed(false);
         }

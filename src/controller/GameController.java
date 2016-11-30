@@ -176,6 +176,9 @@ public class GameController {
             g2d.setColor(Color.white);
             g2d.drawString("JOGADOR: " + jogadorAtual.getUsuario(), 180, 20);
             
+            g2d.setColor(Color.white);
+            g2d.drawString("Aperte a Tecla F1 para ver as instruções: " , 500, 20);
+            
             if (!gm.isPause()) {
                 if (!gm.isEspraKeyPress()) {
                     for (int i = 0; i < lstEntidade.size(); i++) {
