@@ -53,7 +53,7 @@ public class GameController {
     
     private Clip tiro;
     private Clip game;
-    private boolean tiroNull = true;
+    private boolean tiroNull = true;   
     
     public GameController(GameView gv, ArrayList<Entidade> lstEntidade, ArrayList<Entidade> lstEntidadeRemover, Jogador jogador) {
         this.gv = gv;
@@ -298,7 +298,10 @@ public class GameController {
            lstPontuacao.add(new Pontuacao(jogadorAtual, gm.getPontos()));  
            jogadorAtual = lstJogador.get(1);
            qtdJogada++;
-        }        
+        }     
+         else if(jogar == Jogar.Dois && lstPontuacao.size() == 1 &&  gm.getPontos() > 0){
+            lstPontuacao.add(new Pontuacao(jogadorAtual, gm.getPontos())); 
+        }
         
         tiro.stop();               
     }
@@ -316,7 +319,7 @@ public class GameController {
            jogadorAtual = lstJogador.get(1);
            qtdJogada++;
         }                 
-        else if(jogar == Jogar.Dois && lstPontuacao.size() == 1 && hashJogador.size() == 2){
+        else if(jogar == Jogar.Dois && lstPontuacao.size() == 1 &&  gm.getPontos() > 0){
             lstPontuacao.add(new Pontuacao(jogadorAtual, gm.getPontos())); 
         }
         
